@@ -43,7 +43,7 @@ def get_game():
     return "Invalid parameters", 400
 
 @app.route("/getLeaderboard")
-def verify_question():
+def get_leaderboard():
 
         response = requests.get(f"{CPLUSPLUS_SERVER}/getLeaderboard")
         flask_response = Response(response.text)
