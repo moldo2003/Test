@@ -42,16 +42,30 @@ def get_game():
         return flask_response
     return "Invalid parameters", 400
 
+@app.route("/getLeaderboard")
+def verify_question():
+
+        response = requests.get(f"{CPLUSPLUS_SERVER}/getLeaderboard")
+        flask_response = Response(response.text)
+        flask_response.status_code = response.status_code
+
+        # Add the "Content-Type" header to the Flask response
+        flask_response.headers["Content-Type"] = "application/json"
+        return flask_response
+
+
 @app.route("/verifyQuestion")
 def verify_question():
     user_id = request.args.get("userId")
     game_id = request.args.get("gameId")
     index = request.args.get("index")
     answer = request.args.get("answer")
+    name = request.args.get("name")
     if user_id and game_id and index and answer:
-        response = requests.get(f"{CPLUSPLUS_SERVER}/verifyQuestion?userId={user_id}&gameId={game_id}&index={index}&answer={answer}")
+        response = requests.get(f"{CPLUSPLUS_SERVER}/verifyQuestion?userId={user_id}&gameId={game_id}&index={index}&answer={answer}&name={name}")
         return response.text, response.status_code
     return "Invalid parameters", 400
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
